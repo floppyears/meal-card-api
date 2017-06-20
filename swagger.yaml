@@ -1,75 +1,83 @@
 swagger: '2.0'
+
 info:
-  title: Web API Skeleton
-  description: Skeleton for Dropwizard Web APIs
-  version: '0.0'
-  license:
-    name: GNU Affero General Public License Version 3
-    url: http://www.gnu.org/licenses/agpl-3.0.en.html
-externalDocs:
-  description: GitHub Repository
-  url: https://github.com/osu-mist/web-api-skeleton
-host: localhost
-schemes:
-  - http
-basePath: /api/v0
-consumes:
-  - text/plain
+  version: "0.0.1"
+  title: OSU Dining Balances API
 produces:
-  - text/plain
+  - application/json
 paths:
-  /:
+  /diningbalances/{osuID}:
     get:
-      summary: Get information
-      description: Build and runtime information about the application.
+      tags:
+        - balances
+      description: "Get a single event by ID"
+      produces:
+        - application/json
       parameters:
-        - $ref: '#/parameters/pretty'
+        - name: osuID
+          in: path
+          description: "ID requested user"
+          required: true
+          type: integer
       responses:
         200:
-          description: Object containing information
+          description: "Successful response"
           schema:
-            $ref: '#/definitions/Info'
-
-parameters:
-  pretty:
-    name: pretty
-    in: query
-    type: boolean
-    required: false
-    description: If true, JSON response will be pretty-printed
+            $ref: "#/definitions/ResultObject"
+        404:
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
 
 definitions:
-  Info:
+  ResultObject:
+    properties:
+      data:
+        $ref: "#/definitions/ResourceObject"
+  ResultObjects:
+    properties:
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/ResourceObject"
+  ResourceObject:
+    properties:
+      id:
+        type: number
+        format: integer
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/Attributes"
+
+  Attributes:
     properties:
       name:
         type: string
-        description: Name of the API.
-      time:
+      type:
         type: string
-        description: Build time in ISO 8601 format.
-      unixTime:
-        type: integer
-        description: Build time as milliseconds since the unix epoch.
-      commit:
-        type: string
-        description: Git commit hash of the revision which was built.
-      documentation:
-        type: string
-        description: Filename of the swagger specification for the API.
+      orange_rewards_balance:
+        type: number
+        format: float
+      meal_plan_balance:
+        type: number
+        format: float
+
   Error:
+    type: object
     properties:
       status:
         type: integer
-        description: HTTP status code.
+        format: int32
       developerMessage:
         type: string
-        description: An error string aimed at developers.
       userMesage:
         type: string
-        description: An error string aimed at end users.
       code:
         type: integer
-        description: Error code.
       details:
         type: string
-        description: A link to further information about the error.
