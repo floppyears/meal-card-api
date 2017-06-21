@@ -67,6 +67,9 @@ definitions:
       mealPlanBalance:
         type: number
         format: float
+      lastUpdated:
+        type: string
+        format: dateTime
 
   Error:
     type: object
