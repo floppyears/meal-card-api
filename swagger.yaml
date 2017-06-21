@@ -59,7 +59,7 @@ definitions:
 
   Attributes:
     properties:
-      type:
+      mealPlanType:
         type: string
       orangeRewardsBalance:
         type: number
