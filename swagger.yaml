@@ -19,7 +19,7 @@ paths:
       parameters:
         - name: osuID
           in: path
-          description: "ID requested user"
+          description: "9 Digit OSU ID of the requested user"
           required: true
           type: integer
       responses:
