@@ -63,10 +63,10 @@ definitions:
         type: string
       type:
         type: string
-      orange_rewards_balance:
+      orangeRewardsBalance:
         type: number
         format: float
-      meal_plan_balance:
+      mealPlanBalance:
         type: number
         format: float
 
