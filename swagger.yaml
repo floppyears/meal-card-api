@@ -3,6 +3,9 @@ swagger: '2.0'
 info:
   version: "0.0.1"
   title: OSU Dining Balances API
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/osu-mist/meal-card-api
 produces:
   - application/json
 paths:
