@@ -59,18 +59,25 @@ definitions:
 
   Attributes:
     properties:
+      balances:
+        type: array
+        items:
+          $ref: "#/definitions/MealPlan"
+  MealPlan:
+    type: object
+    properties:
+      mealPlanID:
+        type: integer
+      balance:
+        type: number
+        format: float
       mealPlanType:
         type: string
-      orangeRewardsBalance:
-        type: number
-        format: float
-      mealPlanBalance:
-        type: number
-        format: float
-      lastUpdated:
+      lastUsedDate:
         type: string
         format: dateTime
-
+      lastUsedPlace:
+        type: string
   Error:
     type: object
     properties:
