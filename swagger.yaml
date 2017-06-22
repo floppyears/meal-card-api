@@ -54,8 +54,10 @@ definitions:
         format: integer
       type:
         type: string
-      attributes:
-        $ref: "#/definitions/Attributes"
+      orangeRewards:
+        $ref: "#/definitions/MealPlan"
+      UHDSmealPlan:
+        $ref: "#/definitions/MealPlan"
 
   Attributes:
     properties:
