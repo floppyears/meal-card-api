@@ -1,20 +1,14 @@
 package edu.oregonstate.mist.mealcard.mapper
 
-import edu.oregonstate.mist.api.jsonapi.ResourceObject
 import edu.oregonstate.mist.mealcard.core.MealPlanBalance
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeParser
 import org.skife.jdbi.v2.StatementContext
 import org.skife.jdbi.v2.tweak.ResultSetMapper
 
 import java.sql.ResultSet
 import java.sql.SQLException
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 class MealPlanBalanceMapper implements ResultSetMapper<MealPlanBalance> {
 

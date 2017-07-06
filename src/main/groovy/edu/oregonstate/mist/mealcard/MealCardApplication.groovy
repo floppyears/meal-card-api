@@ -1,7 +1,6 @@
 package edu.oregonstate.mist.mealcard
 
 import edu.oregonstate.mist.api.Application
-import edu.oregonstate.mist.api.Configuration
 import edu.oregonstate.mist.mealcard.db.MealPlanDAO
 import edu.oregonstate.mist.mealcard.resources.MealPlanResource
 import io.dropwizard.jdbi.DBIFactory
