@@ -1,75 +1,96 @@
 swagger: '2.0'
+
 info:
-  title: Web API Skeleton
-  description: Skeleton for Dropwizard Web APIs
-  version: '0.0'
-  license:
-    name: GNU Affero General Public License Version 3
-    url: http://www.gnu.org/licenses/agpl-3.0.en.html
+  version: "0.0.1"
+  title: OSU Meal Card API
 externalDocs:
   description: GitHub Repository
-  url: https://github.com/osu-mist/web-api-skeleton
-host: localhost
-schemes:
-  - http
-basePath: /api/v0
-consumes:
-  - text/plain
+  url: https://github.com/osu-mist/meal-card-api
 produces:
-  - text/plain
+  - application/json
 paths:
-  /:
+  /diningbalances/{osuID}:
     get:
-      summary: Get information
-      description: Build and runtime information about the application.
+      tags:
+        - balances
+      description: "Get a single event by ID"
+      produces:
+        - application/json
       parameters:
-        - $ref: '#/parameters/pretty'
+        - name: osuID
+          in: path
+          description: "9 Digit OSU ID of the requested user"
+          required: true
+          type: integer
       responses:
         200:
-          description: Object containing information
+          description: "Successful response"
           schema:
-            $ref: '#/definitions/Info'
-
-parameters:
-  pretty:
-    name: pretty
-    in: query
-    type: boolean
-    required: false
-    description: If true, JSON response will be pretty-printed
+            $ref: "#/definitions/ResultObject"
+        404:
+          description: "Not found"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/Error"
 
 definitions:
-  Info:
+  ResultObject:
     properties:
-      name:
+      data:
+        $ref: "#/definitions/ResourceObject"
+  ResultObjects:
+    properties:
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/ResourceObject"
+  ResourceObject:
+    properties:
+      id:
+        type: number
+        format: integer
+      type:
         type: string
-        description: Name of the API.
-      time:
-        type: string
-        description: Build time in ISO 8601 format.
-      unixTime:
+      orangeRewards:
+        $ref: "#/definitions/MealPlan"
+      UHDSmealPlan:
+        $ref: "#/definitions/MealPlan"
+
+  Attributes:
+    properties:
+      balances:
+        type: array
+        items:
+          $ref: "#/definitions/MealPlan"
+  MealPlan:
+    type: object
+    properties:
+      mealPlanID:
         type: integer
-        description: Build time as milliseconds since the unix epoch.
-      commit:
+      balance:
+        type: number
+        format: float
+      mealPlanType:
         type: string
-        description: Git commit hash of the revision which was built.
-      documentation:
+      lastUsedDate:
         type: string
-        description: Filename of the swagger specification for the API.
+        format: dateTime
+      lastUsedPlace:
+        type: string
   Error:
+    type: object
     properties:
       status:
         type: integer
-        description: HTTP status code.
+        format: int32
       developerMessage:
         type: string
-        description: An error string aimed at developers.
       userMesage:
         type: string
-        description: An error string aimed at end users.
       code:
         type: integer
-        description: Error code.
       details:
         type: string
-        description: A link to further information about the error.
