@@ -24,13 +24,13 @@ class MealPlanBalanceMapper implements ResultSetMapper<MealPlanBalance> {
     MealPlanBalance map(int index , ResultSet rs , StatementContext ctx)
             throws SQLException {
         def dbDate = ZonedDateTime.parse(rs.getString("LAST_USED_DATE") ,dbFormatter)
-        String nowAsISO = dbDate.format(outputFormatter)
+        String outputDate = dbDate.format(outputFormatter)
 
         new MealPlanBalance(
                     mealPlanID : rs.getInt("MEALPLAN_ID"),
                     balance : rs.getFloat("BALANCE"),
                     mealPlanType : rs.getString("MEALPLAN_DESC"),
-                    lastUsedDate : nowAsISO,
+                    lastUsedDate : outputDate,
                     lastUsedPlace : rs.getString("LAST_USED_PLACE")
         )
     }
