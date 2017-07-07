@@ -32,7 +32,7 @@ class MealPlanResource extends Resource {
 
     @Timed
     @GET
-    @Path('{id: [0-9]+}/')
+    @Path('{id: [0-9]+}')
     Response getByOSUID(@PathParam('id') String id) {
         ResourceObject balances = new ResourceObject(id : id, type : "balances")
 
