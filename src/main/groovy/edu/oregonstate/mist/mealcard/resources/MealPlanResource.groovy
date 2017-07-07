@@ -38,7 +38,7 @@ class MealPlanResource extends Resource {
 
         balances.attributes = mealPlanDAO.mealPlanByOSUID(id)
 
-        if(balances.attributes == null) {
+        if(balances.attributes.size == 0) {
             return notFound().build()
         }
 
