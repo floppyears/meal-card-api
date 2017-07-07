@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam
 import javax.ws.rs.Produces
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.UriBuilder
 import javax.ws.rs.core.UriInfo
 import javax.ws.rs.core.Response
 
@@ -42,8 +43,19 @@ class MealPlanResource extends Resource {
             return notFound().build()
         }
 
-        ok(new ResultObject(
+        def res = new ResultObject(
                 data : balances
-        )).build()
+        )
+        balances.links = [:]
+        balances.links.putAll(addSelfLink(res))
+
+        ok(res).build()
+    }
+
+    private def addSelfLink(def resultObject) {
+        UriBuilder builder = UriBuilder.fromUri(endpointUri).path(this.class).path("{id}")
+        [
+                'self': builder.build(resultObject.data['id'])
+        ]
     }
 }
