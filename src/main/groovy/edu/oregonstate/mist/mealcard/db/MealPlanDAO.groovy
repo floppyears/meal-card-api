@@ -13,8 +13,7 @@ public interface MealPlanDAO extends Closeable {
     Integer checkHealth()
 
     @SqlQuery("""
-                SELECT  OSU_ID,
-                        MEALPLAN_ID,
+                SELECT  MEALPLAN_ID,
                         MEALPLAN_DESC,
                         BALANCE,
                         to_char(CAST(sys_extract_utc(CAST(last_used_date AS TIMESTAMP)) AS DATE),
