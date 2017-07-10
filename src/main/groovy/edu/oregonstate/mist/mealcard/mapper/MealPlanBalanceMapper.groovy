@@ -12,26 +12,31 @@ import java.time.format.DateTimeFormatter
 
 class MealPlanBalanceMapper implements ResultSetMapper<MealPlanBalance> {
 
-    private static DateTimeFormatter dbFormatter = DateTimeFormatter
+    final String LAST_USED_DATE_COLUMN_NAME = "LAST_USED_DATE"
+
+    private static DateTimeFormatter dbInputFormatter = DateTimeFormatter
             .ofPattern("yyyy-MM-dd HH:mm:ss")
             .withZone(ZoneId.of("UTC"))
 
-    private static DateTimeFormatter outputFormatter = DateTimeFormatter
+    private static DateTimeFormatter iso8601outputFormatter = DateTimeFormatter
             .ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
             .withZone(ZoneId.of("UTC"))
 
     @Override
     MealPlanBalance map(int index , ResultSet rs , StatementContext ctx)
             throws SQLException {
-        def dbDate = ZonedDateTime.parse(rs.getString("LAST_USED_DATE") ,dbFormatter)
-        String outputDate = dbDate.format(outputFormatter)
-
         new MealPlanBalance(
                     mealPlanID : rs.getInt("MEALPLAN_ID"),
                     balance : rs.getFloat("BALANCE"),
                     mealPlanType : rs.getString("MEALPLAN_DESC"),
-                    lastUsedDate : outputDate,
+                    lastUsedDate : getIso8601Date(LAST_USED_DATE_COLUMN_NAME, rs),
                     lastUsedPlace : rs.getString("LAST_USED_PLACE")
         )
+    }
+
+    static String getIso8601Date(String dateFieldColumnName , ResultSet rs) {
+        String rawInputDate = rs.getString(dateFieldColumnName)
+        ZonedDateTime dbDate = ZonedDateTime.parse(rawInputDate ,dbInputFormatter)
+        dbDate.format(iso8601outputFormatter)
     }
 }
