@@ -4,8 +4,11 @@ import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.api.jsonapi.ResourceObject
 import edu.oregonstate.mist.api.jsonapi.ResultObject
+import edu.oregonstate.mist.mealcard.core.MealPlanBalance
 import edu.oregonstate.mist.mealcard.db.MealPlanDAO
+import groovy.transform.TypeChecked
 
+import javax.annotation.security.PermitAll
 import javax.ws.rs.GET
 import javax.ws.rs.Path
 import javax.ws.rs.PathParam
@@ -16,6 +19,8 @@ import javax.ws.rs.core.UriBuilder
 import javax.ws.rs.core.UriInfo
 import javax.ws.rs.core.Response
 
+@PermitAll
+@TypeChecked
 @Path("diningbalances")
 @Produces(MediaType.APPLICATION_JSON)
 class MealPlanResource extends Resource {
@@ -37,22 +42,22 @@ class MealPlanResource extends Resource {
     Response getByOSUID(@PathParam('id') String id) {
         ResourceObject balances = new ResourceObject(id : id, type : "balances")
 
-        balances.attributes = mealPlanDAO.mealPlanByOSUID(id)
+        List<MealPlanBalance> mealPlans = mealPlanDAO.mealPlanByOSUID(id)
 
-        if(balances.attributes.size == 0) {
+        if(mealPlans.size() == 0) {
             return notFound().build()
         }
-
+        balances.attributes = mealPlans
         def res = new ResultObject(
                 data : balances
         )
-        balances.links = [:]
-        balances.links.putAll(addSelfLink(res))
+        balances.links = addSelfLink(res)
 
         ok(res).build()
     }
 
-    private def addSelfLink(def resultObject) {
+    private def addSelfLink(ResultObject resultObject) {
+
         UriBuilder builder = UriBuilder.fromUri(endpointUri).path(this.class).path("{id}")
         [
                 'self': builder.build(resultObject.data['id'])
