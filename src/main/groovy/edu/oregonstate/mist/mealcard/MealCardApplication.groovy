@@ -2,6 +2,7 @@ package edu.oregonstate.mist.mealcard
 
 import edu.oregonstate.mist.api.Application
 import edu.oregonstate.mist.mealcard.db.MealPlanDAO
+import edu.oregonstate.mist.mealcard.health.MealCardHealthCheck
 import edu.oregonstate.mist.mealcard.resources.MealPlanResource
 import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Environment
@@ -27,6 +28,9 @@ class MealCardApplication extends Application<MealCardConfiguration> {
         MealPlanDAO mealPlanDAO = jdbi.onDemand(MealPlanDAO.class)
         environment.jersey().register(new MealPlanResource(mealPlanDAO,
                 configuration.api.endpointUri))
+
+        MealCardHealthCheck healthCheck = new MealCardHealthCheck(mealPlanDAO)
+        environment.healthChecks().register("mealCardHealthCheck", healthCheck)
     }
 
     /**
