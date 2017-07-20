@@ -2,12 +2,12 @@ package edu.oregonstate.mist.mealcard.health
 
 import com.codahale.metrics.health.HealthCheck
 import com.codahale.metrics.health.HealthCheck.Result
-import edu.oregonstate.mist.mealcard.db.MealPlanDAO
+import edu.oregonstate.mist.mealcard.db.AbstractMealPlanDAO
 
 class MealCardHealthCheck extends HealthCheck {
-    private MealPlanDAO mealPlanDAO
+    private AbstractMealPlanDAO mealPlanDAO
 
-    MealCardHealthCheck(MealPlanDAO mealPlanDAO) {
+    MealCardHealthCheck(AbstractMealPlanDAO mealPlanDAO) {
         this.mealPlanDAO = mealPlanDAO
     }
 

@@ -1,12 +1,15 @@
 package edu.oregonstate.mist.mealcard
 
 import edu.oregonstate.mist.api.Application
-import edu.oregonstate.mist.mealcard.db.MealPlanDAO
+import edu.oregonstate.mist.mealcard.db.AbstractMealPlanDAO
+import edu.oregonstate.mist.mealcard.db.TestMealPlanDAO
 import edu.oregonstate.mist.mealcard.health.MealCardHealthCheck
 import edu.oregonstate.mist.mealcard.resources.MealPlanResource
 import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Environment
 import org.skife.jdbi.v2.DBI
+
+import edu.oregonstate.mist.contrib.MealPlanDAO
 
 /**
  * Main application class.
@@ -25,7 +28,14 @@ class MealCardApplication extends Application<MealCardConfiguration> {
         DBIFactory factory = new DBIFactory()
         DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "jdbi")
 
-        MealPlanDAO mealPlanDAO = jdbi.onDemand(MealPlanDAO.class)
+        AbstractMealPlanDAO mealPlanDAO
+
+        if(configuration.useTestDAO) {
+            mealPlanDAO = (AbstractMealPlanDAO) jdbi.onDemand(TestMealPlanDAO.class)
+        } else {
+            mealPlanDAO = (AbstractMealPlanDAO) jdbi.onDemand(MealPlanDAO.class)
+        }
+
         environment.jersey().register(new MealPlanResource(mealPlanDAO,
                 configuration.api.endpointUri))
 

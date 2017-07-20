@@ -46,6 +46,7 @@ authentication:
 api:
   endpointUri: https://api.oregonstate.edu/v1/web-api-skeleton/
 
+useTestDAO: true
 #
 ## Example Oracle configuration
 #

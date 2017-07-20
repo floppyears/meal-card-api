@@ -23,4 +23,9 @@ class MealCardConfiguration extends Configuration {
     public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
         this.database = dataSourceFactory
     }
+
+    @NotNull
+    @JsonProperty
+    @Valid
+    Boolean useTestDAO
 }
