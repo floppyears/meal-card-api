@@ -31,7 +31,7 @@ class MealPlanResource extends Resource {
     @Context
     UriInfo uriInfo
 
-    MealPlanResource(AbstractMealPlanDAO dao , URI endpointUri) {
+    MealPlanResource(AbstractMealPlanDAO dao, URI endpointUri) {
         this.mealPlanDAO = dao
         this.endpointUri = endpointUri
     }
