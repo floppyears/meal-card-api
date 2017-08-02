@@ -7,11 +7,13 @@ import org.skife.jdbi.v2.sqlobject.SqlQuery
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper
 
 @RegisterMapper(MealPlanBalanceMapper)
-public interface MealPlanDAO extends Closeable {
+public interface TestMealPlanDAO extends AbstractMealPlanDAO {
 
+    @Override
     @SqlQuery("SELECT 1 FROM dual")
     Integer checkHealth()
 
+    @Override
     @SqlQuery("""
                 SELECT  MEALPLAN_ID,
                         MEALPLAN_DESC,
@@ -24,6 +26,4 @@ public interface MealPlanDAO extends Closeable {
                 """)
     public List<MealPlanBalance> mealPlanByOSUID(@Bind("osuid") String osuid)
 
-    @Override
-    void close()
 }

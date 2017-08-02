@@ -5,7 +5,7 @@ import edu.oregonstate.mist.api.Resource
 import edu.oregonstate.mist.api.jsonapi.ResourceObject
 import edu.oregonstate.mist.api.jsonapi.ResultObject
 import edu.oregonstate.mist.mealcard.core.MealPlanBalance
-import edu.oregonstate.mist.mealcard.db.MealPlanDAO
+import edu.oregonstate.mist.mealcard.db.AbstractMealPlanDAO
 import groovy.transform.TypeChecked
 
 import javax.annotation.security.PermitAll
@@ -25,13 +25,13 @@ import javax.ws.rs.core.Response
 @Produces(MediaType.APPLICATION_JSON)
 class MealPlanResource extends Resource {
 
-    private MealPlanDAO mealPlanDAO
+    private AbstractMealPlanDAO mealPlanDAO
     private URI endpointUri
 
     @Context
     UriInfo uriInfo
 
-    MealPlanResource(MealPlanDAO dao, URI endpointUri) {
+    MealPlanResource(AbstractMealPlanDAO dao, URI endpointUri) {
         this.mealPlanDAO = dao
         this.endpointUri = endpointUri
     }
